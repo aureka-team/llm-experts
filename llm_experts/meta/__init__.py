@@ -4,6 +4,7 @@ from .data_models.language_detector import (  # noqa
 )
 
 from .data_models.language_translator import (  # noqa
+    LanguageTranslatorExpertInput,
     LanguageTranslatorExpertOutput,
 )
 

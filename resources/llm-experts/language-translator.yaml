@@ -3,18 +3,18 @@ max-tokens: 256
 temperature: 0.0
 
 system-prompt-template: >-
-    As a language expert, translate the given text from {src_lang} to {tgt_lang}.
+    As a language expert, translate the given text from {source_language} to {target_language}.
     The translation should be accurate and maintain the context of the original text.
 
 human-prompt-template: |
-    Given the following text in {src_lang}:
+    Given the following text in {source_language}:
 
-    {src_text}
+    {source_text}
 
-    Translate the text into {tgt_lang}.
+    Translate the text into {target_language}.
     As a language expert, ensure the translation is accurate and maintains the context of the original text.
 
     The output must be a JSON formatted dictionary with the key:
-    - "translation" (string): the translated text in {tgt_lang}
+    - "translation" (string): the translated text in {target_language}
 
     Do not include any additional explanation or text outside of the JSON dictionary.

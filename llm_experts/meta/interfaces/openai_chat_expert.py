@@ -7,6 +7,7 @@ from joblib import hash
 from typing import Optional
 from pydantic import BaseModel
 from redis_cache import RedisCache
+from abc import ABC, abstractmethod
 
 
 from langchain_openai.chat_models import ChatOpenAI
@@ -33,7 +34,7 @@ from llm_experts.exceptions import LLMResponseError
 logger = get_logger(__name__)
 
 
-class OpenAIChatExpert:
+class OpenAIChatExpert(ABC):
     def __init__(
         self,
         conf_path: str,
@@ -89,7 +90,7 @@ class OpenAIChatExpert:
     def _get_cache_key(self, expert_input: BaseModel) -> str:
         return hash(f"{hash(self.conf)}-{hash(expert_input)}")
 
-    def generate(self, expert_input: BaseModel) -> BaseModel:
+    def _generate(self, expert_input: BaseModel) -> BaseModel:
         cache_key = self._get_cache_key(expert_input=expert_input)
         if self.cache is not None:
             response_text = self.cache.load(cache_key)
@@ -144,6 +145,10 @@ class OpenAIChatExpert:
             self.cache.save(obj=pydantic_output, cache_key=cache_key)
 
         return pydantic_output
+
+    @abstractmethod
+    def generate(self, expert_input: BaseModel) -> BaseModel:
+        pass
 
     async def async_generate(
         self,
