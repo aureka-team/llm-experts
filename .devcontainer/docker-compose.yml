@@ -17,3 +17,11 @@ services:
             - ../.secrets/.env
         # This keeps the devcontainer running.
         entrypoint: [ "tail", "-f", "/dev/null" ]
+
+    llm-experts-redis:
+        image: redis:${REDIS_VERSION}
+        container_name: llm-experts-redis
+        ports:
+            - "6379:6379"
+        volumes:
+            - $PWD/resources/cache/redis:/data

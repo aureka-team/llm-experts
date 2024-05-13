@@ -3,8 +3,12 @@ more-itertools>=10.2.0
 rich>=13.7.1
 tqdm>=4.66.4
 tiktoken>=0.6.0
+python-iso639>=2024.4.27
 
+pydantic==2.7.1
 openai==1.28.1
 langchain==0.1.20
 langchain-community==0.0.38
 langchain-openai==0.1.6
+
+redis_cache @ git+https://github.com/collectiveai-team/redis-cache.git@v1.0.4

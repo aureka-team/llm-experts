@@ -2,6 +2,9 @@
 	"name": "llm-experts",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "llm-experts-devcontainer",
+	"runServices": [
+		"llm-experts-devcontainer"
+	],
 	"workspaceFolder": "/workspace",
 	"customizations": {
 		"vscode": {
