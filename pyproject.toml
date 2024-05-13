@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+requires-python = ">=3.12"
+name = "llm_experts"
+dynamic = ["version", "dependencies"]
+description = "A package for encoding text into vectors"
+readme = "README.md"
+authors = [{ name = "collective.ai", email = "info@collectiveai.io" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+
+[tool.setuptools.packages.find]
+include = ["llm_experts"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools_scm]

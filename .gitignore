@@ -1,0 +1,13 @@
+**/__pycache__
+**/*.ipynb_checkpoints
+**/*.egg-info
+**/.cache
+
+.secrets/*
+!.secrets/.gitkeep
+
+resources/*
+!resources/llm-experts
+
+.vscode/
+build/

@@ -1,0 +1,20 @@
+model-name: "gpt-3.5-turbo-0125"
+max-tokens: 256
+temperature: 0.0
+
+system-prompt-template: >-
+    As a language expert, translate the given text from {src_lang} to {tgt_lang}.
+    The translation should be accurate and maintain the context of the original text.
+
+human-prompt-template: |
+    Given the following text in {src_lang}:
+
+    {src_text}
+
+    Translate the text into {tgt_lang}.
+    As a language expert, ensure the translation is accurate and maintains the context of the original text.
+
+    The output must be a JSON formatted dictionary with the key:
+    - "translation" (string): the translated text in {tgt_lang}
+
+    Do not include any additional explanation or text outside of the JSON dictionary.

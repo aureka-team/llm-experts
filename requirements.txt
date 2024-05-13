@@ -1,0 +1,10 @@
+joblib>=1.4.2
+more-itertools>=10.2.0
+rich>=13.7.1
+tqdm>=4.66.4
+tiktoken>=0.6.0
+
+openai==1.28.1
+langchain==0.1.20
+langchain-community==0.0.38
+langchain-openai==0.1.6

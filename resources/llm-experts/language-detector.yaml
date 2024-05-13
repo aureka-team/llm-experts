@@ -1,0 +1,23 @@
+model-name: "gpt-4-turbo-2024-04-09"
+max-tokens: 16
+temperature: 0.0
+
+system-prompt-template: >-
+    As a language expert, identify the main language of the given text
+    and provide its ISO 639 code.
+    The identification should be accurate.
+    If the language cannot be detected, return the language as null.
+
+human-prompt-template: |
+    Given the following text:
+
+    {text}
+
+    Identify the main language of the text and provide its ISO 639 code.
+    As a language expert, ensure the identification is accurate.
+    If the language cannot be detected, return the language as null.
+
+    The output must be a JSON formatted dictionary with the key:
+    - "language" (string): the ISO 639 code of the identified language
+
+    Do not include any additional explanation or text outside of the JSON dictionary.
