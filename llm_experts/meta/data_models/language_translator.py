@@ -1,12 +1,6 @@
-from iso639 import Language, LanguageNotFoundError
 from pydantic import BaseModel, StrictStr, field_validator
 
-
-def languge_validator(language: str) -> str:
-    try:
-        return Language.from_name(language).name
-    except LanguageNotFoundError:
-        raise ValueError(f"{language} isn't an ISO language name")
+from .validators import languge_validator
 
 
 class LanguageTranslatorExpertInput(BaseModel):

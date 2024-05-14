@@ -1,0 +1,30 @@
+model-name: "gpt-4o-2024-05-13"
+max-tokens: 256
+temperature: 0.0
+
+system-prompt-template: >-
+    As an AI text analyst, generate a concise response in {output_language} to the given query
+    based on the most relevant provided text chunks and explain which chunks were used.
+    The response should not include any direct references to the given texts, authors,
+    or any phrases indicating the source of the information.
+
+human-prompt-template: |
+    Given the following text chunks:
+
+    {text_chunks}
+
+    And the following query:
+
+    {query_text}
+
+    Generate a concise response in {output_language} to the query based on the most relevant provided text chunks.
+    Also provide a list of `used_chunk_ids` used to generate the response.
+    The response should not include any direct references to the given texts, authors, or any phrases indicating the source of the information.
+
+    If a response cannot be extracted from the given text chunks, the `used_chunk_ids` should be an empty list and the `response` should be null.
+
+    The output must be a JSON formatted dictionary with the keys:
+    - "used_chunk_ids" (list of integers): a list of `used_chunk_ids` used to generate the response
+    - "response" (string): the response to the query
+
+    Do not include any additional explanation or text outside of the JSON dictionary.
