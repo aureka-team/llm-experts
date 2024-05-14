@@ -1,14 +1,16 @@
 import asyncio
 import tiktoken
 
+import importlib.resources as pkg_resources
+
 from tqdm import tqdm
 from joblib import hash
 
 from typing import Optional
+from pathlib import PosixPath
 from pydantic import BaseModel
 from redis_cache import RedisCache
 from abc import ABC, abstractmethod
-
 
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_community.callbacks import get_openai_callback
@@ -26,6 +28,7 @@ from langchain.prompts.chat import (
 )
 
 
+from llm_experts import resources
 from llm_experts.logger import get_logger
 from llm_experts.utils.yaml_data import load_yaml
 from llm_experts.exceptions import LLMResponseError
@@ -40,10 +43,10 @@ class OpenAIChatExpert(ABC):
         conf_path: str,
         expert_output: BaseModel,
         max_concurrency: int = 10,
-        retry_conf_path: str = "/resources/llm-experts/expert-output-parser.yaml",  # noqa
+        retry_conf_path: str = "experts/expert-output-parser.yaml",  # noqa
         cache: Optional[RedisCache] = None,
     ):
-        self.conf = load_yaml(conf_path)
+        self.conf = load_yaml(self._parse_conf_path(conf_path=conf_path))
         self.cache = cache
         self.semaphore = asyncio.Semaphore(max_concurrency)
 
@@ -76,13 +79,18 @@ class OpenAIChatExpert(ABC):
             parser=self.output_parser,
             llm=self.llm,
             prompt=PromptTemplate.from_template(
-                template=load_yaml(retry_conf_path)["base-prompt"]
+                template=load_yaml(
+                    self._parse_conf_path(conf_path=retry_conf_path)
+                )["base-prompt"]
             ),
         )
 
     @property
     def name(self):
         return self.__class__.__name__
+
+    def _parse_conf_path(self, conf_path: str) -> PosixPath:
+        return pkg_resources.files(resources).joinpath(conf_path)
 
     def _get_token_len(self, text: str) -> int:
         return len(self.enc.encode(text))

@@ -3,8 +3,7 @@
 **/*.egg-info
 **/.cache
 
-resources/*
-!resources/llm-experts
-
-notebooks/
 build/
+.vscode/
+resources/
+notebooks/

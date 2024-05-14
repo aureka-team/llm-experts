@@ -23,3 +23,6 @@ include = ["llm_experts"]
 dependencies = { file = ["requirements.txt"] }
 
 [tool.setuptools_scm]
+
+[tool.setuptools.package-data]
+"rage" = ["resources/*"]

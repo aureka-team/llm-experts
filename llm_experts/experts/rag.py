@@ -17,12 +17,11 @@ logger = get_logger(__name__)
 class RAGExpert(OpenAIChatExpert):
     def __init__(
         self,
-        conf_path: str = "/resources/llm-experts/rag.yaml",
         max_concurrency: int = 10,
         cache: Optional[RedisCache] = None,
     ):
         super().__init__(
-            conf_path=conf_path,
+            conf_path="experts/rag.yaml",
             expert_output=RAGExpertOutput,
             max_concurrency=max_concurrency,
             cache=cache,
