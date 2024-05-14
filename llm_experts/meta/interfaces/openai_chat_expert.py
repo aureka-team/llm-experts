@@ -28,7 +28,7 @@ from langchain.prompts.chat import (
 )
 
 
-from llm_experts import resources
+from llm_experts import data
 from llm_experts.logger import get_logger
 from llm_experts.utils.yaml_data import load_yaml
 from llm_experts.exceptions import LLMResponseError
@@ -90,7 +90,7 @@ class OpenAIChatExpert(ABC):
         return self.__class__.__name__
 
     def _parse_conf_path(self, conf_path: str) -> PosixPath:
-        return pkg_resources.files(resources).joinpath(conf_path)
+        return pkg_resources.files(data).joinpath(conf_path)
 
     def _get_token_len(self, text: str) -> int:
         return len(self.enc.encode(text))
