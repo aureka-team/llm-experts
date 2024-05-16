@@ -3,7 +3,7 @@ max-tokens: 256
 temperature: 0.2
 
 system-prompt-template: >-
-    AI information retrieval specialist, generate a detailed but concise response in {output_language} to the given query
+    As an AI information retrieval specialist, generate a detailed but concise response in {output_language} to the given query
     based on the most relevant provided text chunks and explain which chunks were used.
     The response should not include any direct references to the given texts, authors,
     or any phrases indicating the source of the information.
