@@ -14,10 +14,16 @@ from .data_models.rag import (  # noqa
     RAGExpertInputWrapper,
 )
 
-from .data_models.retriever_filter import (
+from .data_models.retriever_filter import (  # noqa
     RretrieverFilterExpertInput,
     RretrieverFilterExpertInputWrapper,
     RretrieverFilterExpertOutput,
+)
+
+
+from .data_models.summarizer import (  # noqa
+    SummarizerExpertInput,
+    SummarizerExpertOutput,
 )
 
 from .interfaces.openai_chat_expert import OpenAIChatExpert  # noqa
