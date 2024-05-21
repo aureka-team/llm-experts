@@ -38,7 +38,11 @@ COPY .devcontainer/requirements.txt .
 RUN --mount=type=cache,target=/root/.cache pip install -r requirements.txt
 
 COPY ./requirements.txt requirements.txt
-RUN --mount=type=cache,target=/root/.cache pip install -r requirements.txt
+RUN --mount=type=ssh \
+    --mount=type=cache,target=/root/.cache \
+    mkdir -p -m 0600 ~/.ssh \
+    && ssh-keyscan github.com >> ~/.ssh/known_hosts \
+    && pip install -r requirements.txt
 
 COPY ./llm_experts /tmp/llm_experts
 COPY ./pyproject.toml /tmp/pyproject.toml
