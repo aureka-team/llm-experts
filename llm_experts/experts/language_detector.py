@@ -1,7 +1,8 @@
 from typing import Optional
 
-from redis_cache import RedisCache
-from llm_experts.logger import get_logger
+from common.cache import RedisCache
+from common.logger import get_logger
+
 from llm_experts.meta import (
     OpenAIChatExpert,
     LanguageDetectorInput,
