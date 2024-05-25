@@ -1,1 +1,1 @@
-from .exceptions import LLMResponseError  # noqa
+from .exceptions import LLMResponseError, ParameterDependencyException  # noqa

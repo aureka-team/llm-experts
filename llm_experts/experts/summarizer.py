@@ -5,8 +5,8 @@ from common.logger import get_logger
 
 from llm_experts.meta import (
     OpenAIChatExpert,
-    SummarizerExpertInput,
-    SummarizerExpertOutput,
+    SummarizerInput,
+    SummarizerOutput,
 )
 
 
@@ -21,13 +21,13 @@ class SummarizerExpert(OpenAIChatExpert):
     ):
         super().__init__(
             conf_path="experts/summarizer.yaml",
-            expert_output=SummarizerExpertOutput,
+            expert_output=SummarizerOutput,
             max_concurrency=max_concurrency,
             cache=cache,
         )
 
     def generate(
         self,
-        expert_input: SummarizerExpertInput,
-    ) -> SummarizerExpertOutput:
+        expert_input: SummarizerInput,
+    ) -> SummarizerOutput:
         return self._generate(expert_input=expert_input)

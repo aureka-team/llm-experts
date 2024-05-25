@@ -6,9 +6,9 @@ from common.utils.json_data import get_pretty
 
 from llm_experts.meta import (
     OpenAIChatExpert,
-    RretrieverFilterExpertInput,
-    RretrieverFilterExpertInputWrapper,
-    RretrieverFilterExpertOutput,
+    RretrieverFilterInput,
+    RretrieverFilterInputWrapper,
+    RretrieverFilterOutput,
 )
 
 
@@ -23,25 +23,25 @@ class RetrieverFilterExpert(OpenAIChatExpert):
     ):
         super().__init__(
             conf_path="experts/retriever-filter.yaml",
-            expert_output=RretrieverFilterExpertOutput,
+            expert_output=RretrieverFilterOutput,
             max_concurrency=max_concurrency,
             cache=cache,
         )
 
     def expert_input_wrapper(
         self,
-        expert_input: RretrieverFilterExpertInput,
-    ) -> RretrieverFilterExpertInputWrapper:
+        expert_input: RretrieverFilterInput,
+    ) -> RretrieverFilterInputWrapper:
         expert_input_dict = expert_input.model_dump()
-        return RretrieverFilterExpertInputWrapper(
+        return RretrieverFilterInputWrapper(
             text_chunks=get_pretty(obj=expert_input_dict["text_chunks"]),
             query_text=expert_input_dict["query_text"],
         )
 
     def generate(
         self,
-        expert_input: RretrieverFilterExpertInput,
-    ) -> RretrieverFilterExpertOutput:
+        expert_input: RretrieverFilterInput,
+    ) -> RretrieverFilterOutput:
         return self._generate(
             self.expert_input_wrapper(expert_input=expert_input)
         )

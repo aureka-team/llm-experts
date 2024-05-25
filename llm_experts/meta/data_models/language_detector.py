@@ -8,7 +8,7 @@ class LanguageDetectorInput(BaseModel):
     text: StrictStr
 
 
-class LanguageDetectorExpertOutput(BaseModel):
+class LanguageDetectorOutput(BaseModel):
     language: Optional[StrictStr] = None
     confidence: Optional[PositiveFloat] = None
 

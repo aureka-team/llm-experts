@@ -1,29 +1,35 @@
 from .data_models.language_detector import (  # noqa
     LanguageDetectorInput,
-    LanguageDetectorExpertOutput,
+    LanguageDetectorOutput,
 )
 
 from .data_models.language_translator import (  # noqa
-    LanguageTranslatorExpertInput,
-    LanguageTranslatorExpertOutput,
+    LanguageTranslatorInput,
+    LanguageTranslatorOutput,
 )
 
 from .data_models.rag import (  # noqa
-    RAGExpertInput,
-    RAGExpertOutput,
-    RAGExpertInputWrapper,
+    RAGInput,
+    RAGOutput,
+    RAGInputWrapper,
 )
 
 from .data_models.retriever_filter import (  # noqa
-    RretrieverFilterExpertInput,
-    RretrieverFilterExpertInputWrapper,
-    RretrieverFilterExpertOutput,
+    RretrieverFilterInput,
+    RretrieverFilterInputWrapper,
+    RretrieverFilterOutput,
 )
 
 
 from .data_models.summarizer import (  # noqa
-    SummarizerExpertInput,
-    SummarizerExpertOutput,
+    SummarizerInput,
+    SummarizerOutput,
+)
+
+
+from .data_models.generic_assistant import (  # noqa
+    GenericAssistantInput,
+    GenericAssistantOutput,
 )
 
 from .interfaces.openai_chat_expert import OpenAIChatExpert  # noqa

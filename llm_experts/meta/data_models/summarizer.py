@@ -1,10 +1,10 @@
 from pydantic import BaseModel, StrictStr
 
 
-class SummarizerExpertInput(BaseModel):
+class SummarizerInput(BaseModel):
     text: StrictStr
     text_type: StrictStr
 
 
-class SummarizerExpertOutput(BaseModel):
+class SummarizerOutput(BaseModel):
     summary: StrictStr

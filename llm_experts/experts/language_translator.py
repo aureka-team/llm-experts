@@ -5,8 +5,8 @@ from common.logger import get_logger
 
 from llm_experts.meta import (
     OpenAIChatExpert,
-    LanguageTranslatorExpertInput,
-    LanguageTranslatorExpertOutput,
+    LanguageTranslatorInput,
+    LanguageTranslatorOutput,
 )
 
 
@@ -21,13 +21,13 @@ class LanguageTranslatorExpert(OpenAIChatExpert):
     ):
         super().__init__(
             conf_path="experts/language-translator.yaml",
-            expert_output=LanguageTranslatorExpertOutput,
+            expert_output=LanguageTranslatorOutput,
             max_concurrency=max_concurrency,
             cache=cache,
         )
 
     def generate(
         self,
-        expert_input: LanguageTranslatorExpertInput,
-    ) -> LanguageTranslatorExpertOutput:
+        expert_input: LanguageTranslatorInput,
+    ) -> LanguageTranslatorOutput:
         return self._generate(expert_input=expert_input)

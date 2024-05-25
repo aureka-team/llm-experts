@@ -1,0 +1,19 @@
+model-name: "gpt-3.5-turbo-0125"
+max-tokens: 256
+temperature: 0.7
+
+system-prompt-template: >-
+    As a very helpful and knowledgeable assistant, provide the best possible answer to the given query.
+    Ensure that the response is clear, concise, and directly addresses the query.
+
+human-prompt-template: |
+    Given the following user query:
+
+    {user_query}
+
+    As a very helpful and knowledgeable assistant, provide a response that is clear, concise, and directly addresses the query.
+
+    The output must be a JSON formatted dictionary with the key:
+    - "assistant_response" (string): the best possible response to the query
+
+    Do not include any additional explanation or text outside of the JSON dictionary.

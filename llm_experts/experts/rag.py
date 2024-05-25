@@ -6,9 +6,9 @@ from common.utils.json_data import get_pretty
 
 from llm_experts.meta import (
     OpenAIChatExpert,
-    RAGExpertInput,
-    RAGExpertInputWrapper,
-    RAGExpertOutput,
+    RAGInput,
+    RAGInputWrapper,
+    RAGOutput,
 )
 
 
@@ -23,17 +23,17 @@ class RAGExpert(OpenAIChatExpert):
     ):
         super().__init__(
             conf_path="experts/rag.yaml",
-            expert_output=RAGExpertOutput,
+            expert_output=RAGOutput,
             max_concurrency=max_concurrency,
             cache=cache,
         )
 
     def expert_input_wrapper(
         self,
-        expert_input: RAGExpertInput,
-    ) -> RAGExpertInputWrapper:
+        expert_input: RAGInput,
+    ) -> RAGInputWrapper:
         expert_input_dict = expert_input.model_dump()
-        return RAGExpertInputWrapper(
+        return RAGInputWrapper(
             text_chunks=get_pretty(obj=expert_input_dict["text_chunks"]),
             query_text=expert_input_dict["query_text"],
             output_language=expert_input_dict["output_language"],
@@ -41,8 +41,8 @@ class RAGExpert(OpenAIChatExpert):
 
     def generate(
         self,
-        expert_input: RAGExpertInput,
-    ) -> RAGExpertOutput:
+        expert_input: RAGInput,
+    ) -> RAGOutput:
         return self._generate(
             self.expert_input_wrapper(expert_input=expert_input)
         )

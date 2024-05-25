@@ -3,7 +3,7 @@ from pydantic import BaseModel, StrictStr, field_validator
 from .validators import languge_validator
 
 
-class LanguageTranslatorExpertInput(BaseModel):
+class LanguageTranslatorInput(BaseModel):
     source_text: StrictStr
     source_language: StrictStr
     target_language: StrictStr
@@ -17,5 +17,5 @@ class LanguageTranslatorExpertInput(BaseModel):
     )
 
 
-class LanguageTranslatorExpertOutput(BaseModel):
+class LanguageTranslatorOutput(BaseModel):
     translation: StrictStr

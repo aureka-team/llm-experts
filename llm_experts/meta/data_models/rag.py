@@ -9,7 +9,7 @@ class TextChunk(BaseModel):
     text: StrictStr
 
 
-class RAGExpertInput(BaseModel):
+class RAGInput(BaseModel):
     text_chunks: list[TextChunk]
     query_text: StrictStr
     output_language: StrictStr
@@ -19,12 +19,12 @@ class RAGExpertInput(BaseModel):
     )
 
 
-class RAGExpertInputWrapper(BaseModel):
+class RAGInputWrapper(BaseModel):
     text_chunks: StrictStr
     query_text: StrictStr
     output_language: StrictStr
 
 
-class RAGExpertOutput(BaseModel):
+class RAGOutput(BaseModel):
     used_chunk_ids: list[PositiveInt] = []
     response: Optional[StrictStr] = None

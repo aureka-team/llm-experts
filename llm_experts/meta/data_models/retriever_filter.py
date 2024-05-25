@@ -6,15 +6,15 @@ class TextChunk(BaseModel):
     text: StrictStr
 
 
-class RretrieverFilterExpertInput(BaseModel):
+class RretrieverFilterInput(BaseModel):
     text_chunks: list[TextChunk]
     query_text: StrictStr
 
 
-class RretrieverFilterExpertInputWrapper(BaseModel):
+class RretrieverFilterInputWrapper(BaseModel):
     text_chunks: StrictStr
     query_text: StrictStr
 
 
-class RretrieverFilterExpertOutput(BaseModel):
+class RretrieverFilterOutput(BaseModel):
     used_chunk_ids: list[PositiveInt] = []
