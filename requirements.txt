@@ -6,4 +6,4 @@ langchain==0.2.1
 langchain-community==0.2.1
 langchain-openai==0.1.7
 
-common @ git+ssh://git@github.com/collectiveai-team/common.git@v1.0.3
+common @ git+ssh://git@github.com/collectiveai-team/common.git@v1.0.4

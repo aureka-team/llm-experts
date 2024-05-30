@@ -11,9 +11,6 @@
 			"settings": {
 				"extensions.verifySignature": false,
 				"notebook.output.scrolling": true,
-				"python.analysis.extraPaths": [
-					"./src/llm_experts"
-				],
 				"editor.formatOnSave": true,
 				"files.trimFinalNewlines": true,
 				"files.trimTrailingWhitespace": true,
