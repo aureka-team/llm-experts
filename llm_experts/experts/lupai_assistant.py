@@ -13,7 +13,7 @@ from llm_experts.meta import (
 logger = get_logger(__name__)
 
 
-class LupAiAssistant(OpenAIChatExpert):
+class LupAIAssistant(OpenAIChatExpert):
     def __init__(
         self,
         max_concurrency: int = 10,

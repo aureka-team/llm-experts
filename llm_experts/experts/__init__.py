@@ -6,4 +6,4 @@ from .retriever_filter import RetrieverFilterExpert  # noqa
 from .summarizer import SummarizerExpert  # noqa
 from .generic_assistant import GenericAssistant  # noqa
 
-from .lupai_assistant import LupAiAssistant  # noqa
+from .lupai_assistant import LupAIAssistant  # noqa
