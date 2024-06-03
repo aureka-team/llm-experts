@@ -131,7 +131,7 @@ class OpenAIChatExpert(ABC):
         self.session_id = uuid.uuid4().hex
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self.__class__.__name__
 
     def _parse_conf_path(self, conf_path: str) -> PosixPath:
