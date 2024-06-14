@@ -3,6 +3,7 @@ from typing import Optional
 from common.cache import RedisCache
 from common.logger import get_logger
 
+from llm_experts.data import experts
 from llm_experts.meta import (
     OpenAIChatExpert,
     SummarizerInput,
@@ -20,7 +21,7 @@ class SummarizerExpert(OpenAIChatExpert):
         cache: Optional[RedisCache] = None,
     ):
         super().__init__(
-            conf_path="experts/summarizer.yaml",
+            conf_path=f"{experts.__path__[0]}/summarizer.yaml",
             expert_output=SummarizerOutput,
             max_concurrency=max_concurrency,
             cache=cache,

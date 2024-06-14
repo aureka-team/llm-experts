@@ -4,6 +4,7 @@ from common.cache import RedisCache
 from common.logger import get_logger
 from common.utils.json_data import get_pretty
 
+from llm_experts.data import experts
 from llm_experts.meta import (
     OpenAIChatExpert,
     RretrieverFilterInput,
@@ -22,7 +23,7 @@ class RetrieverFilterExpert(OpenAIChatExpert):
         cache: Optional[RedisCache] = None,
     ):
         super().__init__(
-            conf_path="experts/retriever-filter.yaml",
+            conf_path=f"{experts.__path__[0]}/retriever-filter.yaml",
             expert_output=RretrieverFilterOutput,
             max_concurrency=max_concurrency,
             cache=cache,

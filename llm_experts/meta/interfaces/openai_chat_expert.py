@@ -1,13 +1,10 @@
 import uuid
 import asyncio
 
-import importlib.resources as pkg_resources
-
 from tqdm import tqdm
 from joblib import hash
 
 from typing import Optional
-from pathlib import PosixPath
 from pydantic import BaseModel
 from abc import ABC, abstractmethod
 
@@ -35,8 +32,7 @@ from common.cache import RedisCache
 from common.logger import get_logger
 from common.utils.yaml_data import load_yaml
 
-
-from llm_experts import data
+from llm_experts.data import experts
 from llm_experts.exceptions import (
     LLMResponseError,
     ParameterDependencyException,
@@ -67,7 +63,7 @@ class OpenAIChatExpert(ABC):
         input_messages_key: Optional[str] = None,
         max_messages: int = 20,
         max_concurrency: int = 10,
-        retry_conf_path: str = "experts/expert-output-parser.yaml",  # noqa
+        retry_conf_path: str = f"{experts.__path__[0]}/expert-output-parser.yaml",  # noqa
         cache: Optional[RedisCache] = None,
     ):
         self.with_message_history = with_message_history
@@ -89,7 +85,7 @@ class OpenAIChatExpert(ABC):
                 )
             )
 
-        self.conf = load_yaml(self._parse_conf_path(conf_path=conf_path))
+        self.conf = load_yaml(file_path=conf_path)
         self.semaphore = asyncio.Semaphore(max_concurrency)
 
         self.prompt_messages = [
@@ -121,9 +117,7 @@ class OpenAIChatExpert(ABC):
             parser=self.output_parser,
             llm=self.llm,
             prompt=PromptTemplate.from_template(
-                template=load_yaml(
-                    self._parse_conf_path(conf_path=retry_conf_path)
-                )["base-prompt"]
+                template=load_yaml(file_path=retry_conf_path)["base-prompt"]
             ),
         )
 
@@ -133,9 +127,6 @@ class OpenAIChatExpert(ABC):
     @property
     def name(self) -> str:
         return self.__class__.__name__
-
-    def _parse_conf_path(self, conf_path: str) -> PosixPath:
-        return pkg_resources.files(data).joinpath(conf_path)
 
     def _get_cache_key(self, expert_input: BaseModel) -> str:
         return hash(f"{hash(self.conf)}-{hash(expert_input)}")

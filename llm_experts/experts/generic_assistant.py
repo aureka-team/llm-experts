@@ -3,6 +3,7 @@ from typing import Optional
 from common.cache import RedisCache
 from common.logger import get_logger
 
+from llm_experts.data import experts
 from llm_experts.meta import (
     OpenAIChatExpert,
     GenericAssistantInput,
@@ -20,7 +21,7 @@ class GenericAssistant(OpenAIChatExpert):
         cache: Optional[RedisCache] = None,
     ):
         super().__init__(
-            conf_path="experts/generic-assistant.yaml",
+            conf_path=f"{experts.__path__[0]}/generic-assistant.yaml",
             expert_output=GenericAssistantOutput,
             with_message_history=True,
             input_messages_key="user_query",
