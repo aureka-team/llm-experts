@@ -1,9 +1,8 @@
 from typing import Optional
-
-from common.cache import RedisCache
 from common.logger import get_logger
 
 from llm_experts.data import experts
+from llm_experts.store import MongoStore
 from llm_experts.meta import (
     OpenAIChatExpert,
     GenericAssistantInput,
@@ -18,7 +17,7 @@ class GenericAssistant(OpenAIChatExpert):
     def __init__(
         self,
         max_concurrency: int = 10,
-        cache: Optional[RedisCache] = None,
+        mongo_store: Optional[MongoStore] = None,
     ):
         super().__init__(
             conf_path=f"{experts.__path__[0]}/generic-assistant.yaml",
@@ -27,7 +26,7 @@ class GenericAssistant(OpenAIChatExpert):
             input_messages_key="user_query",
             max_messages=20,
             max_concurrency=max_concurrency,
-            cache=cache,
+            mongo_store=mongo_store,
         )
 
     def generate(

@@ -6,9 +6,9 @@ build-backend = "setuptools.build_meta"
 requires-python = ">=3.12"
 name = "llm_experts"
 dynamic = ["version", "dependencies"]
-description = "A package for encoding text into vectors"
+description = "LLM Experts"
 readme = "README.md"
-authors = [{ name = "collective.ai", email = "info@collectiveai.io" }]
+authors = [{ name = "Bas", email = "bas@collectiveai.io" }]
 license = { file = "LICENSE" }
 classifiers = [
     "License :: OSI Approved :: MIT License",

@@ -1,5 +1,6 @@
 python-iso639>=2024.4.27
 pydantic>=2.7.3
+pymongo>=4.7.3
 
 openai==1.33.0
 langchain==0.2.3

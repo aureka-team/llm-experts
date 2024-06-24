@@ -27,3 +27,16 @@ services:
             - "6379:6379"
         volumes:
             - $PWD/resources/cache/redis:/data
+
+    llm-experts-mongo:
+        image: mongo:${MONGODB_VERSION}
+        container_name: llm-experts-mongo
+        ports:
+            - '127.0.0.1:27017:27017'
+        volumes:
+            - $PWD/resources/db/mongo/db:/data/db:z
+        deploy:
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: 1G
