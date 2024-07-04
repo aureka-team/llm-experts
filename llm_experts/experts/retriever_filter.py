@@ -35,7 +35,10 @@ class RetrieverFilterExpert(OpenAIChatExpert):
     ) -> RretrieverFilterInputWrapper:
         expert_input_dict = expert_input.model_dump()
         return RretrieverFilterInputWrapper(
-            text_chunks=get_pretty(obj=expert_input_dict["text_chunks"]),
+            text_chunks=get_pretty(
+                obj=expert_input_dict["text_chunks"],
+                indent=1,
+            ),
             query_text=expert_input_dict["query_text"],
         )
 
