@@ -29,7 +29,7 @@ class RAGExpert(OpenAIChatExpert):
             cache=cache,
         )
 
-    def expert_input_wrapper(
+    def _expert_input_wrapper(
         self,
         expert_input: RAGInput,
     ) -> RAGInputWrapper:
@@ -48,5 +48,5 @@ class RAGExpert(OpenAIChatExpert):
         expert_input: RAGInput,
     ) -> RAGOutput:
         return self._generate(
-            self.expert_input_wrapper(expert_input=expert_input)
+            self._expert_input_wrapper(expert_input=expert_input)
         )

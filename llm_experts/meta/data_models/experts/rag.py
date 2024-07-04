@@ -19,10 +19,8 @@ class RAGInput(BaseModel):
     )
 
 
-class RAGInputWrapper(BaseModel):
+class RAGInputWrapper(RAGInput):
     text_chunks: StrictStr
-    query_text: StrictStr
-    output_language: StrictStr
 
 
 class RAGOutput(BaseModel):

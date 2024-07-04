@@ -11,9 +11,8 @@ class RretrieverFilterInput(BaseModel):
     query_text: StrictStr
 
 
-class RretrieverFilterInputWrapper(BaseModel):
+class RretrieverFilterInputWrapper(RretrieverFilterInput):
     text_chunks: StrictStr
-    query_text: StrictStr
 
 
 class RretrieverFilterOutput(BaseModel):

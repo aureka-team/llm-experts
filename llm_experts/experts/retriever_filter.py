@@ -29,7 +29,7 @@ class RetrieverFilterExpert(OpenAIChatExpert):
             cache=cache,
         )
 
-    def expert_input_wrapper(
+    def _expert_input_wrapper(
         self,
         expert_input: RretrieverFilterInput,
     ) -> RretrieverFilterInputWrapper:
@@ -47,5 +47,5 @@ class RetrieverFilterExpert(OpenAIChatExpert):
         expert_input: RretrieverFilterInput,
     ) -> RretrieverFilterOutput:
         return self._generate(
-            self.expert_input_wrapper(expert_input=expert_input)
+            self._expert_input_wrapper(expert_input=expert_input)
         )
