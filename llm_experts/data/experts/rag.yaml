@@ -27,4 +27,4 @@ human-prompt-template: |
     - "used_chunk_ids" (list of integers): a list of `used_chunk_ids` used to generate the response
     - "response" (string): the response to the query
 
-    Do not include any additional explanation or text outside of the JSON dictionary.
+    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.

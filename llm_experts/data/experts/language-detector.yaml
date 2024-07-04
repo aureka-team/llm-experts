@@ -20,4 +20,4 @@ human-prompt-template: |
     The output must be a JSON formatted dictionary with the key:
     - "language" (string): the ISO 639 code of the identified language
 
-    Do not include any additional explanation or text outside of the JSON dictionary.
+    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.

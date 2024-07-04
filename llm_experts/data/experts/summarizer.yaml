@@ -24,4 +24,4 @@ human-prompt-template: |
     The output must be a JSON formatted dictionary with the key:
     - "summary" (string): the detailed and informative summary of the text
 
-    Do not include any additional explanation or text outside of the JSON dictionary.
+    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.

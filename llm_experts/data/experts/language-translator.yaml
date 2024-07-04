@@ -17,4 +17,4 @@ human-prompt-template: |
     The output must be a JSON formatted dictionary with the key:
     - "translation" (string): the translated text in {target_language}
 
-    Do not include any additional explanation or text outside of the JSON dictionary.
+    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.

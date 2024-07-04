@@ -10,7 +10,7 @@ class ResponseMetadata(BaseModel):
 
 class StoreMessage(BaseModel):
     human_message: StrictStr
-    ai_message: dict
+    ai_message: StrictStr
     response_metadata: ResponseMetadata
 
 

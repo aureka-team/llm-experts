@@ -23,4 +23,4 @@ human-prompt-template: |
     The output must be a JSON formatted dictionary with the key:
     - "used_chunk_ids" (list of integers): a list of `used_chunk_ids` that would be used to generate the response, sorted by relevance
 
-    Do not include any additional explanation or text outside of the JSON dictionary.
+    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.

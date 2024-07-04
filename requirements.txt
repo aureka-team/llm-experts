@@ -2,9 +2,9 @@ python-iso639>=2024.4.27
 pydantic>=2.7.3
 pymongo>=4.7.3
 
-openai==1.33.0
-langchain==0.2.3
-langchain-community==0.2.4
-langchain-openai==0.1.8
+openai==1.35.10
+langchain==0.2.6
+langchain-community==0.2.6
+langchain-openai==0.1.14
 
 common @ git+https://github.com/collectiveai-team/common.git@v1.0.8

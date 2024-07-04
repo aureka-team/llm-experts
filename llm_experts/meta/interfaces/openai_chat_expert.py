@@ -1,5 +1,4 @@
 import uuid
-import json
 import asyncio
 
 from tqdm import tqdm
@@ -151,7 +150,7 @@ class OpenAIChatExpert(ABC):
 
         return {
             "human_message": human_message.content,
-            "ai_message": json.loads(ai_message.content),
+            "ai_message": ai_message.content,
             "response_metadata": {
                 "model": ai_message.response_metadata["model_name"],
                 "completion_tokens": token_usage["completion_tokens"],
