@@ -1,6 +1,6 @@
 from pydantic import BaseModel, StrictStr, field_validator
 
-from .validators import languge_validator
+from llm_experts.utils.validators import languge_validator
 
 
 class LanguageTranslatorInput(BaseModel):

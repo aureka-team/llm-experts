@@ -12,9 +12,9 @@ human-prompt-template: |
     {source_text}
 
     Translate the text into {target_language}.
-    As a language expert, ensure the translation is accurate and maintains the context of the original text.
+    Ensure the translation is accurate and maintains the context of the original text.
 
-    The output must be a JSON formatted dictionary with the key:
+    The output must be a JSON-formatted dictionary with the following keys:
     - "translation" (string): the translated text in {target_language}
 
-    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.
+    Only provide the JSON dictionary without any additional explanation or text.

@@ -11,9 +11,9 @@ human-prompt-template: |
 
     {user_query}
 
-    As a very helpful and knowledgeable assistant, provide a response that is clear, concise, and directly addresses the query.
+    Provide a response that is clear, concise, and directly addresses the query.
 
-    The output must be a JSON formatted dictionary with the key:
+    The output must be a JSON-formatted dictionary with the following keys:
     - "assistant_response" (string): the best possible response to the query
 
-    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.
+    Only provide the JSON dictionary without any additional explanation or text.

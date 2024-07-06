@@ -5,23 +5,16 @@ temperature: 0.2
 system-prompt-template: >-
     As a summarization expert, generate a detailed and informative summary of the given extensive text.
     Ensure that the summary captures the main points and essential details accurately.
-    The summary should be suitable for use as context in a Retrieval-Augmented Generation (RAG) system.
     Take into account the nature of the input text specified as {text_type}.
     The response should not include any direct references to the given texts, authors,
     or any phrases indicating the source of the information.
 
 human-prompt-template: |
-    Given the following extensive text from a {text_type}:
+    Generate a detailed and informative summary of the following extensive text from a {text_type}:
 
     {text}
 
-    Generate a detailed and informative summary of the text.
-    As a summarization expert, ensure the summary captures the main points and essential details accurately.
-    The summary should be suitable for use as context in a Retrieval-Augmented Generation (RAG) system.
-    The response should not include any direct references to the given texts, authors, or any phrases indicating the source of the information.
-    Take into account the nature of the input text specified as {text_type}.
-
-    The output must be a JSON formatted dictionary with the key:
+    The output must be a JSON-formatted dictionary with the following keys:
     - "summary" (string): the detailed and informative summary of the text
 
-    Do not include any additional explanation or text outside of the valid and parseable JSON dictionary.
+    Only provide the JSON dictionary without any additional explanation or text.

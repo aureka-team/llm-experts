@@ -1,5 +1,6 @@
 base-prompt: |
     Completion:
+
     {completion}
 
     The above Completion is a JSON string that has been incorrectly formatted, causing a parsing error in Python.
