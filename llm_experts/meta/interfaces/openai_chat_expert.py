@@ -67,7 +67,7 @@ class OpenAIChatExpert(ABC):
         input_messages_key: Optional[str] = None,
         max_messages: int = 20,
         max_concurrency: int = 10,
-        retry_conf_path: str = f"{experts.__path__[0]}/expert-output-parser.yaml",  # noqa
+        retry_conf_path: str = f"{experts.__path__[0]}/output-parser.yaml",  # noqa
         cache: Optional[RedisCache] = None,
         mongo_store: Optional[MongoStore] = None,
     ):
@@ -120,11 +120,16 @@ class OpenAIChatExpert(ABC):
             pydantic_object=expert_output
         )
 
+        output_parser_conf = load_yaml(file_path=retry_conf_path)
         self.retry_output_parser = RetryWithErrorOutputParser.from_llm(
             parser=self.output_parser,
-            llm=self.llm,
+            llm=ChatOpenAI(
+                model_name=output_parser_conf["model-name"],
+                max_tokens=self.conf["max-tokens"],
+                temperature=output_parser_conf["temperature"],
+            ),
             prompt=PromptTemplate.from_template(
-                template=load_yaml(file_path=retry_conf_path)["base-prompt"]
+                template=output_parser_conf["base-prompt"]
             ),
         )
 

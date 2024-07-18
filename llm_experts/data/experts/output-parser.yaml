@@ -1,3 +1,5 @@
+model-name: gpt-4o-mini-2024-07-18
+temperature: 0.0
 base-prompt: |
     Completion:
 
@@ -8,4 +10,4 @@ base-prompt: |
 
     As an expert Python programmer, your task is to rectify this issue.
     Please provide the corrected, properly formatted JSON string as your output.
-    The output must not contain any additional text or comments.
+    Only provide the JSON string without any additional explanation or text.
