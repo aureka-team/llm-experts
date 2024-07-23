@@ -6,8 +6,6 @@ services:
         build:
             context: ..
             dockerfile: .devcontainer/Dockerfile
-            ssh:
-                - default
             args:
                 - PYTHON_VERSION
                 - PIP_VERSION
