@@ -33,7 +33,7 @@ from common.cache import RedisCache
 from common.logger import get_logger
 from common.utils.yaml_data import load_yaml
 
-from llm_experts.data import experts
+from llm_experts.conf import experts
 from llm_experts.store import MongoStore
 from llm_experts.meta import StoreMessages
 from llm_experts.exceptions import (

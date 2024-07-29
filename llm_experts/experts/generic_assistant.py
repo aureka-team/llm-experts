@@ -1,7 +1,7 @@
 from typing import Optional
 from common.logger import get_logger
 
-from llm_experts.data import experts
+from llm_experts.conf import experts
 from llm_experts.store import MongoStore
 from llm_experts.meta import (
     OpenAIChatExpert,
