@@ -10,8 +10,6 @@
 		"vscode": {
 			"settings": {
 				"extensions.verifySignature": false,
-				"notebook.output.scrolling": true,
-				"editor.formatOnSave": true,
 				"files.trimFinalNewlines": true,
 				"files.trimTrailingWhitespace": true,
 				"files.watcherExclude": {
@@ -20,23 +18,23 @@
 					"./notebooks/**": true
 				},
 				"[python]": {
-					"editor.defaultFormatter": "ms-python.black-formatter"
+					"editor.defaultFormatter": "charliermarsh.ruff",
+					"editor.codeActionsOnSave": {
+						"source.fixAll": "never"
+					}
 				},
-				"black-formatter.args": [
-					"--line-length",
-					"79"
-				],
-				"notebook.formatOnSave.enabled": true
+				"editor.formatOnSave": true,
+				"notebook.formatOnSave.enabled": true,
+				"notebook.output.scrolling": true
 			},
 			"extensions": [
 				"ms-python.python",
-				"ms-python.flake8",
-				"ms-python.vscode-pylance",
-				"ms-python.black-formatter",
+				"charliermarsh.ruff",
 				"eamodio.gitlens",
+				"njpwerner.autodocstring",
+				"ms-azuretools.vscode-docker",
 				"ms-toolsai.jupyter",
 				"redhat.vscode-yaml",
-				"ms-azuretools.vscode-docker",
 				"tamasfe.even-better-toml"
 			]
 		}

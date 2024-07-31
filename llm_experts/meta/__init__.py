@@ -20,4 +20,7 @@ from .data_models.experts.generic_assistant import (  # noqa
 )
 
 from .data_models.store.mongo_store import StoreMessages  # noqa
-from .interfaces.openai_chat_expert import OpenAIChatExpert, InMemoryHistory
+from .interfaces.openai_chat_expert import (  # noqa
+    OpenAIChatExpert,
+    InMemoryHistory,
+)
