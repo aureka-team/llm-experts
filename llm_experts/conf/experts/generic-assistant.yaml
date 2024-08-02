@@ -3,17 +3,17 @@ max-tokens: 256
 temperature: 0.7
 
 system-prompt-template: >-
-    As a very helpful and knowledgeable assistant, provide the best possible answer to the given query.
-    Ensure that the response is clear, concise, and directly addresses the query.
-
-human-prompt-template: |
-    Given the following user query:
-
-    {user_query}
-
-    Provide a response that is clear, concise, and directly addresses the query.
+    As a very helpful and knowledgeable assistant, provide the best possible answer to the given user's query.
+    Ensure that the response is clear, concise, and directly addresses the user's query.
 
     The output must be a JSON-formatted dictionary with the following keys:
-    - "assistant_response" (string): the best possible response to the query
+    - "assistant_response" (string)
+
+    The `assistant_response` key should contain your response that is clear, concise, and directly addresses the query.
 
     Only provide the JSON dictionary without any additional explanation or text.
+
+human-prompt-template: |
+    User's query:
+
+    {user_query}

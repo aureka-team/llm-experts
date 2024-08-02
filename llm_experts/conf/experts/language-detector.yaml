@@ -5,15 +5,14 @@ temperature: 0.0
 system-prompt-template: >-
     As a language expert, identify the main language of the given text and provide its ISO 639 code.
 
-human-prompt-template: |
-    Given the following text:
+    The output must be a JSON-formatted dictionary with the following key:
+    - "language" (string)
 
-    {text}
-
-    Identify the main language of the text and provide its ISO 639 code.
-    If the language cannot be detected, the `language` must be null.
-
-    The output must be a JSON-formatted dictionary with the following keys:
-    - "language" (string): the ISO 639 code of the identified language
+    The `language` key should contain the identified language.
 
     Only provide the JSON dictionary without any additional explanation or text.
+
+human-prompt-template: |
+    Text:
+
+    {text}

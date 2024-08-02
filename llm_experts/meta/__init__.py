@@ -8,11 +8,6 @@ from .data_models.experts.language_translator import (  # noqa
     LanguageTranslatorOutput,
 )
 
-from .data_models.experts.summarizer import (  # noqa
-    SummarizerInput,
-    SummarizerOutput,
-)
-
 
 from .data_models.experts.generic_assistant import (  # noqa
     GenericAssistantInput,

@@ -6,7 +6,9 @@ base-prompt: |
     {completion}
 
     The above Completion is a JSON string that has been incorrectly formatted, causing a parsing error in Python.
-    Error Details: {error}
+    Error Details:
+
+    {error}
 
     As an expert Python programmer, your task is to rectify this issue.
     Please provide the corrected, properly formatted JSON string as your output.
