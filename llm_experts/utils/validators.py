@@ -1,7 +1,7 @@
 from iso639 import Language, LanguageNotFoundError
 
 
-def languge_validator(language: str) -> str:
+def language_validator(language: str) -> str:
     try:
         return Language.from_name(language).name
     except LanguageNotFoundError:

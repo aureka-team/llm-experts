@@ -1,43 +1,44 @@
 {
-	"name": "llm-experts",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "llm-experts-devcontainer",
-	"runServices": [
-		"llm-experts-devcontainer"
-	],
-	"workspaceFolder": "/workspace",
-	"customizations": {
-		"vscode": {
-			"settings": {
-				"extensions.verifySignature": false,
-				"files.trimFinalNewlines": true,
-				"files.trimTrailingWhitespace": true,
-				"files.watcherExclude": {
-					".git/**": true,
-					"./resources/**": true,
-					"./notebooks/**": true
-				},
-				"[python]": {
-					"editor.defaultFormatter": "charliermarsh.ruff",
-					"editor.codeActionsOnSave": {
-						"source.fixAll": "never"
-					}
-				},
-				"editor.formatOnSave": true,
-				"notebook.formatOnSave.enabled": true,
-				"notebook.output.scrolling": true
-			},
-			"extensions": [
-				"ms-python.python",
-				"charliermarsh.ruff",
-				"eamodio.gitlens",
-				"njpwerner.autodocstring",
-				"ms-azuretools.vscode-docker",
-				"ms-toolsai.jupyter",
-				"redhat.vscode-yaml",
-				"tamasfe.even-better-toml"
-			]
-		}
-	},
-	"postCreateCommand": "bash .devcontainer/entrypoint.sh"
+    "name": "llm-experts",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "llm-experts-devcontainer",
+    "runServices": ["llm-experts-devcontainer"],
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "extensions.verifySignature": false,
+                "files.trimFinalNewlines": true,
+                "files.trimTrailingWhitespace": true,
+                "files.watcherExclude": {
+                    ".git/**": true,
+                    "./resources/**": true,
+                    "./notebooks/**": true
+                },
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff",
+                    "editor.codeActionsOnSave": {
+                        "source.fixAll": "never"
+                    }
+                },
+                "[json]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "editor.formatOnSave": true,
+                "notebook.formatOnSave.enabled": true,
+                "notebook.output.scrolling": true,
+                "ruff.configuration": "ruff.toml",
+                "ruff.lineLength": 80
+            },
+            "extensions": [
+                "charliermarsh.ruff",
+                "esbenp.prettier-vscode",
+                "eamodio.gitlens",
+                "ms-azuretools.vscode-docker",
+                "ms-toolsai.jupyter",
+                "tamasfe.even-better-toml"
+            ]
+        }
+    },
+    "postCreateCommand": "bash .devcontainer/entrypoint.sh"
 }
