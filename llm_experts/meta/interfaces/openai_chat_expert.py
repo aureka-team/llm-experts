@@ -116,10 +116,7 @@ class OpenAIChatExpert(ABC):
             temperature=self.conf["temperature"],
         )
 
-        self.output_parser = PydanticOutputParser(
-            pydantic_object=expert_output
-        )
-
+        self.output_parser = PydanticOutputParser(pydantic_object=expert_output)
         output_parser_conf = load_yaml(file_path=retry_conf_path)
         self.retry_output_parser = RetryWithErrorOutputParser.from_llm(
             parser=self.output_parser,
@@ -214,7 +211,6 @@ class OpenAIChatExpert(ABC):
             logger.info(f"openai_callback => {parsed_callback}")
 
         response_text = llm_response.content
-
         try:
             pydantic_output = self.output_parser.parse(text=response_text)
 
