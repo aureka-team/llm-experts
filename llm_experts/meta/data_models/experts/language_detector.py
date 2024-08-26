@@ -1,5 +1,5 @@
 from typing import Optional
-from iso639 import Language, LanguageNotFoundError
+from pycountry import languages
 
 from pydantic import BaseModel, StrictStr, PositiveFloat, field_validator
 
@@ -13,11 +13,9 @@ class LanguageDetectorOutput(BaseModel):
     confidence: Optional[PositiveFloat] = None
 
     @field_validator("language", mode="before")
-    def language_validator(cls, v: str) -> str:
+    def language_validator(cls, v: str) -> str | None:
+        print(v)
         if v is not None:
-            try:
-                _ = Language.from_part1(v)
-            except LanguageNotFoundError:
-                return "en"
-
-        return v
+            language_code = languages.get(alpha_2=v)
+            if language_code is not None:
+                return language_code.alpha_2

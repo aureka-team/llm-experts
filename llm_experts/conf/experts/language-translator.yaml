@@ -10,7 +10,6 @@ system-prompt-template: >-
     - "translation" (string)
 
     The `translation` key should contain the translated text.
-
     Only provide the JSON dictionary without any additional explanation or text.
 
 human-prompt-template: |

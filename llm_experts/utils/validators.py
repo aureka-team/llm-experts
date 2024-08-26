@@ -1,8 +1,9 @@
-from iso639 import Language, LanguageNotFoundError
+from pycountry import languages
 
 
-def language_validator(language: str) -> str:
-    try:
-        return Language.from_name(language).name
-    except LanguageNotFoundError:
-        raise ValueError(f"{language} isn't an ISO language name")
+def language_name_validator(language_name: str) -> str:
+    language = languages.get(name=language_name)
+    if language is not None:
+        return language.name
+
+    raise ValueError(f"{language} isn't an ISO language name")

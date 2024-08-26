@@ -10,7 +10,6 @@ system-prompt-template: >-
     - "assistant_response" (string)
 
     The `assistant_response` key should contain your response that is clear, concise, and directly addresses the query.
-
     Only provide the JSON dictionary without any additional explanation or text.
 
 human-prompt-template: |
