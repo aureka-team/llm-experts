@@ -3,9 +3,9 @@ pydantic>=2.8.2
 pycountry>=24.6.1
 
 openai>=1.42.0
-langchain==0.2.14
-langchain-core==0.2.35
-langchain-community==0.2.12
-langchain-openai==0.1.22
+langchain==0.2.15
+langchain-core==0.2.36
+langchain-community==0.2.14
+langchain-openai==0.1.23
 
-common @ git+https://github.com/collectiveai-team/common.git@v1.0.10
+common @ git+https://github.com/collectiveai-team/common.git@v1.0.11
