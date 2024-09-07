@@ -1,4 +1,3 @@
-from typing import Optional
 from common.logger import get_logger
 
 from llm_experts.conf import experts
@@ -17,7 +16,7 @@ class GenericAssistant(OpenAIChatExpert):
     def __init__(
         self,
         max_concurrency: int = 10,
-        mongo_store: Optional[MongoStore] = None,
+        mongo_store: MongoStore | None = None,
     ):
         super().__init__(
             conf_path=f"{experts.__path__[0]}/generic-assistant.yaml",

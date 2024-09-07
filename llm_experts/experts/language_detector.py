@@ -1,5 +1,3 @@
-from typing import Optional
-
 from common.cache import RedisCache
 from common.logger import get_logger
 
@@ -18,7 +16,7 @@ class LanguageDetectorExpert(OpenAIChatExpert):
     def __init__(
         self,
         max_concurrency: int = 10,
-        cache: Optional[RedisCache] = None,
+        cache: RedisCache | None = None,
     ):
         super().__init__(
             conf_path=f"{experts.__path__[0]}/language-detector.yaml",

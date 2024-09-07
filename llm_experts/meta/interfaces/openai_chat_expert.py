@@ -4,7 +4,6 @@ import asyncio
 from tqdm import tqdm
 from joblib import hash
 
-from typing import Optional
 from pydantic import BaseModel
 from more_itertools import chunked
 from abc import ABC, abstractmethod
@@ -64,12 +63,12 @@ class OpenAIChatExpert(ABC):
         conf_path: str,
         expert_output: BaseModel,
         with_message_history: bool = False,
-        input_messages_key: Optional[str] = None,
+        input_messages_key: str | None = None,
         max_messages: int = 20,
         max_concurrency: int = 10,
         retry_conf_path: str = f"{experts.__path__[0]}/output-parser.yaml",  # noqa
-        cache: Optional[RedisCache] = None,
-        mongo_store: Optional[MongoStore] = None,
+        cache: RedisCache | None = None,
+        mongo_store: MongoStore | None = None,
     ):
         self.with_message_history = with_message_history
         self.input_messages_key = input_messages_key
@@ -244,7 +243,7 @@ class OpenAIChatExpert(ABC):
     async def async_generate(
         self,
         expert_input: BaseModel,
-        pbar: Optional[tqdm] = None,
+        pbar: tqdm | None = None,
     ) -> BaseModel:
         async with self.semaphore:
             expert_output = await asyncio.to_thread(
