@@ -1,8 +1,8 @@
-openai>=1.44.0
+openai>=1.44.1
 pymongo>=4.8.0
 pycountry>=24.6.1
 
-pydantic>=2.9.0
+pydantic>=2.9.1
 pydantic_extra_types>=2.9.0
 
 langchain==0.2.16

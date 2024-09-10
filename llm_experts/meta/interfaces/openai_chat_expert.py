@@ -66,7 +66,7 @@ class OpenAIChatExpert(ABC):
         input_messages_key: str | None = None,
         max_messages: int = 20,
         max_concurrency: int = 10,
-        retry_conf_path: str = f"{experts.__path__[0]}/output-parser.yaml",  # noqa
+        retry_conf_path: str = f"{experts.__path__[0]}/output-parser.yaml",
         cache: RedisCache | None = None,
         mongo_store: MongoStore | None = None,
     ):

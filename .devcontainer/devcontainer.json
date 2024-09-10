@@ -27,7 +27,6 @@
                 "editor.formatOnSave": true,
                 "notebook.formatOnSave.enabled": true,
                 "notebook.output.scrolling": true,
-                "ruff.configuration": "ruff.toml",
                 "ruff.lineLength": 80
             },
             "extensions": [
