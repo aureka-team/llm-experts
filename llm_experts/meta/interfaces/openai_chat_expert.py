@@ -8,7 +8,6 @@ from abc import ABC, abstractmethod
 
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
-from langchain_core.messages import BaseMessage
 
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.callbacks import get_openai_callback
@@ -119,22 +118,6 @@ class OpenAIChatExpert(ABC):
 
     def _get_cache_key(self, expert_input: BaseModel) -> str:
         return hash(f"{hash(self.conf)}-{hash(expert_input)}")
-
-    def _parse_message_pair(self, message_pair: tuple[BaseMessage]) -> dict:
-        human_message = message_pair[0]
-        ai_message = message_pair[1]
-        token_usage = ai_message.response_metadata["token_usage"]
-
-        return {
-            "human_message": human_message.content,
-            "ai_message": ai_message.content,
-            "response_metadata": {
-                "model": ai_message.response_metadata["model_name"],
-                "completion_tokens": token_usage["completion_tokens"],
-                "prompt_tokens": token_usage["prompt_tokens"],
-                "total_tokens": token_usage["total_tokens"],
-            },
-        }
 
     def _generate(self, expert_input: BaseModel) -> BaseModel:
         cache_key = self._get_cache_key(expert_input=expert_input)
