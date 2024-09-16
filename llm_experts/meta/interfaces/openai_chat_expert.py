@@ -1,20 +1,19 @@
-import uuid
 import asyncio
 
 from tqdm import tqdm
 from joblib import hash
 
 from pydantic import BaseModel
-from more_itertools import chunked
 from abc import ABC, abstractmethod
 
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
 from langchain_core.messages import BaseMessage
-from langchain_core.chat_history import BaseChatMessageHistory
+
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.callbacks import get_openai_callback
 from langchain.schema.output_parser import OutputParserException
+from langchain_mongodb.chat_message_histories import MongoDBChatMessageHistory
 from langchain.output_parsers import (
     PydanticOutputParser,
     RetryWithErrorOutputParser,
@@ -27,14 +26,11 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 
-
 from common.cache import RedisCache
 from common.logger import get_logger
 from common.utils.yaml_data import load_yaml
 
 from llm_experts.conf import experts
-from llm_experts.store import MongoStore
-from llm_experts.meta import StoreMessages
 from llm_experts.exceptions import (
     LLMResponseError,
     ParameterDependencyException,
@@ -44,50 +40,38 @@ from llm_experts.exceptions import (
 logger = get_logger(__name__)
 
 
-class InMemoryHistory(BaseChatMessageHistory, BaseModel):
-    session_id: str
-    max_messages: int
-    messages: list[BaseMessage] = []
-
-    def add_message(self, message: BaseMessage) -> None:
-        self.messages.append(message)
-        self.messages = self.messages[-self.max_messages :]  # noqa
-
-    def clear(self) -> None:
-        self.messages = []
-
-
+# TODO: Add limit by session_id to the mongodb_chat_history
 class OpenAIChatExpert(ABC):
     def __init__(
         self,
         conf_path: str,
         expert_output: BaseModel,
-        with_message_history: bool = False,
         input_messages_key: str | None = None,
-        max_messages: int = 20,
         max_concurrency: int = 10,
         retry_conf_path: str = f"{experts.__path__[0]}/output-parser.yaml",
         cache: RedisCache | None = None,
-        mongo_store: MongoStore | None = None,
+        mongodb_chat_history: MongoDBChatMessageHistory | None = None,
     ):
-        self.with_message_history = with_message_history
         self.input_messages_key = input_messages_key
-        self.max_messages = max_messages
+        self.cache = cache
+        self.mongodb_chat_history = mongodb_chat_history
+        self.with_message_history = (
+            True if mongodb_chat_history is not None else False
+        )
+
         if self.with_message_history and self.input_messages_key is None:
             raise ParameterDependencyException(
-                dependent_param="with_message_history",
+                dependent_param="mongodb_chat_history",
                 required_param="input_messages_key",
             )
 
-        self.cache = cache
-        self.mongo_store = mongo_store
-
+        # TODO: Is this ok?
         if self.with_message_history and self.cache is not None:
             self.cache = None
             logger.warning(
                 (
-                    "cache will be ignored when `with_message_history` "
-                    "is enabled"
+                    "cache will be ignored when `mongodb_chat_history` "
+                    "is provided"
                 )
             )
 
@@ -129,20 +113,12 @@ class OpenAIChatExpert(ABC):
             ),
         )
 
-        self.history = InMemoryHistory(
-            session_id=uuid.uuid4().hex,
-            max_messages=self.max_messages,
-        )
-
     @property
     def name(self) -> str:
         return self.__class__.__name__
 
     def _get_cache_key(self, expert_input: BaseModel) -> str:
         return hash(f"{hash(self.conf)}-{hash(expert_input)}")
-
-    def _get_session_history(self, session_id: str) -> BaseChatMessageHistory:
-        return self.history
 
     def _parse_message_pair(self, message_pair: tuple[BaseMessage]) -> dict:
         human_message = message_pair[0]
@@ -160,18 +136,6 @@ class OpenAIChatExpert(ABC):
             },
         }
 
-    def _save_messages(self) -> None:
-        message_pairs = chunked(iterable=self.history.messages, n=2)
-        self.mongo_store.save_message_history(
-            store_messages=StoreMessages(
-                session_id=self.history.session_id,
-                messages=[
-                    self._parse_message_pair(message_pair=message_pair)
-                    for message_pair in message_pairs
-                ],
-            )
-        )
-
     def _generate(self, expert_input: BaseModel) -> BaseModel:
         cache_key = self._get_cache_key(expert_input=expert_input)
         if self.cache is not None:
@@ -182,22 +146,28 @@ class OpenAIChatExpert(ABC):
         logger.debug(f"waiting for {self.name} response")
         chat_prompt = ChatPromptTemplate.from_messages(self.prompt_messages)
         runnable = chat_prompt | self.llm
-        if self.with_message_history:
+        if self.mongodb_chat_history is not None:
             runnable = RunnableWithMessageHistory(
                 runnable,
-                self._get_session_history,
+                lambda session_id: self.mongodb_chat_history,
                 input_messages_key=self.input_messages_key,
                 history_messages_key="history",
             )
 
         with get_openai_callback() as callback:
+            config = (
+                {
+                    "configurable": {
+                        "session_id": self.mongodb_chat_history.session_id,
+                    }
+                }
+                if self.with_message_history
+                else None
+            )
+
             llm_response = runnable.invoke(
                 input=expert_input.model_dump(),
-                config={
-                    "configurable": {
-                        "session_id": self.history.session_id,
-                    },
-                },
+                config=config,
             )
 
             parsed_callback = {
@@ -227,12 +197,8 @@ class OpenAIChatExpert(ABC):
             except OutputParserException:
                 raise LLMResponseError(response_text=response_text)
 
-        logger.debug(f"history messages => {len(self.history.messages)}")
         if self.cache is not None:
             self.cache.save(obj=pydantic_output, cache_key=cache_key)
-
-        if self.mongo_store is not None:
-            self._save_messages()
 
         return pydantic_output
 

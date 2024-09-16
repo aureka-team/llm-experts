@@ -1,7 +1,7 @@
 from common.logger import get_logger
+from langchain_mongodb.chat_message_histories import MongoDBChatMessageHistory
 
 from llm_experts.conf import experts
-from llm_experts.store import MongoStore
 from llm_experts.meta import (
     OpenAIChatExpert,
     GenericAssistantInput,
@@ -16,16 +16,14 @@ class GenericAssistant(OpenAIChatExpert):
     def __init__(
         self,
         max_concurrency: int = 10,
-        mongo_store: MongoStore | None = None,
+        mongodb_chat_history: MongoDBChatMessageHistory | None = None,
     ):
         super().__init__(
             conf_path=f"{experts.__path__[0]}/generic-assistant.yaml",
             expert_output=GenericAssistantOutput,
-            with_message_history=True,
             input_messages_key="user_query",
-            max_messages=20,
             max_concurrency=max_concurrency,
-            mongo_store=mongo_store,
+            mongodb_chat_history=mongodb_chat_history,
         )
 
     def generate(
