@@ -160,7 +160,7 @@ class OpenAIChatExpert(ABC):
                 "total_cost": callback.total_cost,
             }
 
-            logger.info(f"openai_callback => {parsed_callback}")
+            logger.debug(f"openai_callback => {parsed_callback}")
 
         response_text = llm_response.content
         try:
