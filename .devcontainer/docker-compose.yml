@@ -16,7 +16,7 @@ services:
         env_file:
             - ../.secrets/.env
         # This keeps the devcontainer running.
-        entrypoint: [ "tail", "-f", "/dev/null" ]
+        entrypoint: ["tail", "-f", "/dev/null"]
 
     llm-experts-redis:
         image: redis:${REDIS_VERSION}
@@ -30,11 +30,26 @@ services:
         image: mongo:${MONGODB_VERSION}
         container_name: llm-experts-mongo
         ports:
-            - '127.0.0.1:27017:27017'
+            - "127.0.0.1:27017:27017"
         volumes:
             - $PWD/resources/db/mongo/db:/data/db:z
         deploy:
             resources:
                 limits:
-                    cpus: '1'
+                    cpus: "1"
                     memory: 1G
+
+    llm-experts-ollama:
+        image: ollama/ollama
+        container_name: llm-experts-ollama
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: 1
+                          capabilities: [gpu]
+        ports:
+            - "127.0.0.1:11434:11434"
+        volumes:
+            - $PWD/resources/ollama:/root/.ollama

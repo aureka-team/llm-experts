@@ -26,3 +26,12 @@ mongo-flush: mongo-stop
 	$(info *** WARNING you are deleting all data from mongodb ***)
 	sudo rm -r resources/db/mongo
 	docker compose -f .devcontainer/docker-compose.yml up -d llm-experts-mongo
+
+
+ollama-start:
+	docker compose -f .devcontainer/docker-compose.yml up -d llm-experts-ollama
+	docker exec -it llm-experts-ollama ollama pull llama3.2
+	docker exec -it llm-experts-ollama ollama pull llama3.2:1b
+
+ollama-stop:
+	docker compose -f .devcontainer/docker-compose.yml stop llm-experts-ollama
