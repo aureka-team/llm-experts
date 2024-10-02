@@ -8,7 +8,6 @@ services:
             dockerfile: .devcontainer/Dockerfile
             args:
                 - PYTHON_VERSION
-                - PIP_VERSION
                 - DEVCONTAINER_USER
         volumes:
             - ..:/workspace:cached
@@ -16,7 +15,7 @@ services:
         env_file:
             - ../.secrets/.env
         # This keeps the devcontainer running.
-        entrypoint: ["tail", "-f", "/dev/null"]
+        entrypoint: [ "tail", "-f", "/dev/null" ]
 
     llm-experts-redis:
         image: redis:${REDIS_VERSION}
@@ -48,7 +47,7 @@ services:
                     devices:
                         - driver: nvidia
                           count: 1
-                          capabilities: [gpu]
+                          capabilities: [ gpu ]
         ports:
             - "127.0.0.1:11434:11434"
         volumes:
