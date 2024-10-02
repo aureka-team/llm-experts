@@ -3,9 +3,18 @@ import asyncio
 from tqdm import tqdm
 from joblib import hash
 
-from pydantic import BaseModel
+from typing import Literal
 from abc import ABC, abstractmethod
+from pydantic import (
+    BaseModel,
+    StrictStr,
+    PositiveInt,
+    NonNegativeFloat,
+    Field,
+    ConfigDict,
+)
 
+from langchain_ollama import ChatOllama
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
 
@@ -39,8 +48,43 @@ from llm_experts.exceptions import (
 logger = get_logger(__name__)
 
 
+MODEL_TYPE_MAP = {
+    "gpt": ChatOpenAI,
+    "llama": ChatOllama,
+}
+
+
+class Config(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
+    model_type: Literal["gpt", "llama"] = Field(alias="model-type")
+    model: StrictStr = Field(alias="model-name")
+    temperature: NonNegativeFloat
+    max_tokens: PositiveInt | None = Field(
+        alias="max-tokens",
+        default=None,
+    )
+
+    system_prompt_template: StrictStr | None = Field(
+        alias="system-prompt-template",
+        default=None,
+    )
+
+    human_prompt_template: StrictStr | None = Field(
+        alias="human-prompt-template",
+        default=None,
+    )
+
+    base_prompt: StrictStr | None = Field(
+        alias="base-prompt",
+        default=None,
+    )
+
+    format: StrictStr = "json"
+
+
 # TODO: Add limit by session_id to the mongodb_chat_history
-class OpenAIChatExpert(ABC):
+class LLMExpert(ABC):
     def __init__(
         self,
         conf_path: str,
@@ -74,15 +118,13 @@ class OpenAIChatExpert(ABC):
                 )
             )
 
-        self.conf = load_yaml(file_path=conf_path)
-        self.semaphore = asyncio.Semaphore(max_concurrency)
-
+        self.conf = Config(**load_yaml(file_path=conf_path))
         self.prompt_messages = [
             SystemMessagePromptTemplate.from_template(
-                self.conf["system-prompt-template"],
+                self.conf.system_prompt_template,
             ),
             HumanMessagePromptTemplate.from_template(
-                self.conf["human-prompt-template"]
+                self.conf.human_prompt_template
             ),
         ]
 
@@ -92,29 +134,39 @@ class OpenAIChatExpert(ABC):
                 MessagesPlaceholder(variable_name="history"),
             )
 
-        self.llm = ChatOpenAI(
-            model_name=self.conf["model-name"],
-            max_tokens=self.conf["max-tokens"],
-            temperature=self.conf["temperature"],
-        )
-
+        self.llm = self._get_chat_llm(conf=self.conf)
         self.output_parser = PydanticOutputParser(pydantic_object=expert_output)
-        output_parser_conf = load_yaml(file_path=retry_conf_path)
+        output_parser_conf = Config(**load_yaml(file_path=retry_conf_path))
+        output_parser_llm = self._get_chat_llm(conf=output_parser_conf)
         self.retry_output_parser = RetryWithErrorOutputParser.from_llm(
             parser=self.output_parser,
-            llm=ChatOpenAI(
-                model_name=output_parser_conf["model-name"],
-                max_tokens=self.conf["max-tokens"],
-                temperature=output_parser_conf["temperature"],
-            ),
+            llm=output_parser_llm,
             prompt=PromptTemplate.from_template(
-                template=output_parser_conf["base-prompt"]
+                template=output_parser_conf.base_prompt
             ),
         )
+
+        self.semaphore = asyncio.Semaphore(max_concurrency)
 
     @property
     def name(self) -> str:
         return self.__class__.__name__
+
+    # FIXME: This method should be improved.
+    def _get_chat_llm(self, conf: Config) -> ChatOpenAI | ChatOllama:
+        dict_conf = conf.model_dump()
+        dict_conf.pop("base_prompt")
+        dict_conf.pop("system_prompt_template")
+        dict_conf.pop("human_prompt_template")
+
+        model_type = dict_conf.pop("model_type")
+        if model_type == "gpt":
+            dict_conf.pop("format")
+
+        if model_type == "llama":
+            dict_conf["num_predict"] = dict_conf.pop("max_tokens")
+
+        return MODEL_TYPE_MAP[model_type](**dict_conf)
 
     def _get_cache_key(self, expert_input: BaseModel) -> str:
         return hash(f"{hash(self.conf)}-{hash(expert_input)}")

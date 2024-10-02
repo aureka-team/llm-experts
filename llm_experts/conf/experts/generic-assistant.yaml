@@ -1,4 +1,7 @@
+model-type: gpt
 model-name: gpt-4o-mini-2024-07-18
+# model-type: llama
+# model-name: llama3.2
 max-tokens: 256
 temperature: 0.7
 

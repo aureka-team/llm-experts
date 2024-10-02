@@ -12,7 +12,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     htop \
     unzip \
     git-core \
-    openssh-client \
     python${PYTHON_VERSION} \
     python${PYTHON_VERSION}-dev \
     python3-setuptools \
@@ -25,23 +24,21 @@ RUN rm /usr/lib/python${PYTHON_VERSION}/EXTERNALLY-MANAGED
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 \
     && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python${PYTHON_VERSION} 1
 
+RUN curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="/usr/local" sh
+
 WORKDIR /tmp
 
-ARG PIP_VERSION
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python get-pip.py pip==${PIP_VERSION}
-
 COPY .devcontainer/requirements.txt .
-RUN --mount=type=cache,target=/root/.cache pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache uv pip install -r requirements.txt --system
 
 COPY ./requirements.txt requirements.txt
-RUN --mount=type=cache,target=/root/.cache pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache uv pip install -r requirements.txt --system
 
 COPY ./llm_experts /tmp/llm_experts
 COPY ./pyproject.toml /tmp/pyproject.toml
 RUN --mount=type=cache,target=/root/.cache \
     --mount=source=.git,target=.git,type=bind \
-    pip install . --no-deps
+    uv pip install . --no-deps --system
 
 RUN rm -rf /tmp/*
 

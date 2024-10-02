@@ -1,3 +1,17 @@
-from .language_detector import LanguageDetectorExpert  # noqa
-from .language_translator import LanguageTranslatorExpert  # noqa
-from .generic_assistant import GenericAssistant  # noqa
+from .language_detector import (  # noqa
+    LanguageDetectorExpert,
+    LanguageDetectorInput,
+    LanguageDetectorOutput,
+)
+
+from .language_translator import (  # noqa
+    LanguageTranslatorExpert,
+    LanguageTranslatorInput,
+    LanguageTranslatorOutput,
+)
+
+from .generic_assistant import (  # noqa
+    GenericAssistant,
+    GenericAssistantInput,
+    GenericAssistantOutput,
+)

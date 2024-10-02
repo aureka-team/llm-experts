@@ -1,3 +1,4 @@
+model-type: gpt
 model-name: gpt-4o-mini-2024-07-18
 max-tokens: 256
 temperature: 0.0
