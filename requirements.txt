@@ -1,14 +1,14 @@
-openai>=1.50.2
+openai>=1.51.0
 pymongo>=4.9.1
 pycountry>=24.6.1
 
 pydantic>=2.9.2
 pydantic-extra-types>=2.9.0
 
-langchain==0.3.1
+langchain==0.3.2
 langchain-community==0.3.1
 langchain-openai==0.2.1
 langchain-mongodb==0.2.0
 langchain-ollama==0.2.0
 
-common @ git+https://github.com/aureka-team/common.git@v1.0.13
+common @ git+https://github.com/aureka-team/common.git@v1.1.0
