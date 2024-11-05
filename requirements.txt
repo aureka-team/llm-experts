@@ -1,13 +1,13 @@
-openai>=1.51.0
-pymongo>=4.9.1
+openai>=1.54.1
+pymongo>=4.10.1
 pycountry>=24.6.1
 
 pydantic>=2.9.2
-pydantic-extra-types>=2.9.0
+pydantic-extra-types>=2.10.0
 
-langchain==0.3.2
-langchain-community==0.3.1
-langchain-openai==0.2.1
+langchain==0.3.7
+langchain-community==0.3.5
+langchain-openai==0.2.5
 langchain-mongodb==0.2.0
 langchain-ollama==0.2.0
 
