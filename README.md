@@ -57,6 +57,7 @@ output_1 = generic_assistant.generate(
         user_query=query_1,
     )
 )
+
 print(output_1)
 # Output: GenericAssistantOutput(assistant_response="Hello! It's great to hear from someone in Argentina. How can I assist you today?")
 
@@ -67,6 +68,7 @@ output_2 = generic_assistant.generate(
         user_query=query_2,
     )
 )
+
 print(output_2)
 # Output: GenericAssistantOutput(assistant_response="Yes, you mentioned that you are from Argentina.")
 ```
