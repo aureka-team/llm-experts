@@ -4,7 +4,7 @@ pycountry>=24.6.1
 pydantic>=2.10.4
 pydantic-extra-types>=2.10.1
 
-pymongo==4.9 # This max version supported by motor.
+pymongo==4.9 # Max version supported by motor.
 motor==3.6.0
 
 langchain==0.3.14
