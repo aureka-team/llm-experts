@@ -94,10 +94,13 @@ class LLMExpert(ABC):
         retry_conf_path: str = f"{experts.__path__[0]}/output-parser.yaml",
         cache: RedisCache | None = None,
         mongodb_chat_history: MongoDBChatMessageHistory | None = None,
+        read_only_history: bool = False,
     ):
         self.input_messages_key = input_messages_key
         self.cache = cache
         self.mongodb_chat_history = mongodb_chat_history
+        self.read_only_history = read_only_history
+
         self.with_message_history = (
             True if mongodb_chat_history is not None else False
         )
@@ -171,6 +174,17 @@ class LLMExpert(ABC):
     def _get_cache_key(self, expert_input: BaseModel) -> str:
         return hash(f"{hash(self.conf)}-{hash(expert_input)}")
 
+    # TODO: There is a better way to do this?
+    def _remove_last_history_message(self) -> None:
+        last_message_rows = self.mongodb_chat_history.collection.find(
+            {"SessionId": self.mongodb_chat_history.session_id},
+            sort={"_id": -1},
+            limit=2,
+        )
+
+        for row in last_message_rows:
+            self.mongodb_chat_history.collection.delete_one({"_id": row["_id"]})
+
     def _generate(self, expert_input: BaseModel) -> BaseModel:
         cache_key = self._get_cache_key(expert_input=expert_input)
         if self.cache is not None:
@@ -213,6 +227,9 @@ class LLMExpert(ABC):
             }
 
             logger.debug(f"openai_callback => {parsed_callback}")
+
+        if self.read_only_history:
+            self._remove_last_history_message()
 
         response_text = llm_response.content
         try:

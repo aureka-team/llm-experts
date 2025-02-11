@@ -24,6 +24,7 @@ class GenericAssistant(LLMExpert):
         conf_path: str = f"{experts.__path__[0]}/generic-assistant.yaml",
         max_concurrency: int = 10,
         mongodb_chat_history: MongoDBChatMessageHistory | None = None,
+        read_only_history: bool = False,
     ):
         super().__init__(
             conf_path=conf_path,
@@ -31,6 +32,7 @@ class GenericAssistant(LLMExpert):
             input_messages_key="user_query",
             max_concurrency=max_concurrency,
             mongodb_chat_history=mongodb_chat_history,
+            read_only_history=read_only_history,
         )
 
     def generate(
