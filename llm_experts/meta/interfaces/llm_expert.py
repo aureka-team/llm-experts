@@ -82,8 +82,6 @@ class Config(BaseModel):
         default=None,
     )
 
-    format: StrictStr = "json"
-
 
 # TODO: Add limit by session_id to the mongodb_chat_history
 class LLMExpert(ABC):
@@ -158,16 +156,16 @@ class LLMExpert(ABC):
         return self.__class__.__name__
 
     # FIXME: This method should be improved.
-    def _get_chat_llm(self, conf: Config) -> ChatOpenAI | ChatOllama:
+    def _get_chat_llm(
+        self,
+        conf: Config,
+    ) -> ChatOpenAI | ChatGoogleGenerativeAI | ChatOllama:
         dict_conf = conf.model_dump()
         dict_conf.pop("base_prompt")
         dict_conf.pop("system_prompt_template")
         dict_conf.pop("human_prompt_template")
 
         model_type = dict_conf.pop("model_type")
-        if model_type == "gpt":
-            dict_conf.pop("format")
-
         if model_type == "llama":
             dict_conf["num_predict"] = dict_conf.pop("max_tokens")
 
