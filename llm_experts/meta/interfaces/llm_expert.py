@@ -17,6 +17,7 @@ from pydantic import (
 from langchain_ollama import ChatOllama
 from langchain_openai.chat_models import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.callbacks import get_openai_callback
@@ -50,6 +51,7 @@ logger = get_logger(__name__)
 
 MODEL_TYPE_MAP = {
     "gpt": ChatOpenAI,
+    "google": ChatGoogleGenerativeAI,
     "llama": ChatOllama,
 }
 
@@ -57,7 +59,7 @@ MODEL_TYPE_MAP = {
 class Config(BaseModel):
     model_config = ConfigDict(protected_namespaces=())
 
-    model_type: Literal["gpt", "llama"] = Field(alias="model-type")
+    model_type: Literal["gpt", "google", "llama"] = Field(alias="model-type")
     model: StrictStr = Field(alias="model-name")
     temperature: NonNegativeFloat
     max_tokens: PositiveInt | None = Field(

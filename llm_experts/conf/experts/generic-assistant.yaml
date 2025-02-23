@@ -1,5 +1,7 @@
-model-type: gpt
-model-name: gpt-4o-mini-2024-07-18
+# model-type: gpt
+# model-name: gpt-4o-mini-2024-07-18
+model-type: google
+model-name: gemini-2.0-flash-lite-preview-02-05
 # model-type: llama
 # model-name: llama3.2
 max-tokens: 256
