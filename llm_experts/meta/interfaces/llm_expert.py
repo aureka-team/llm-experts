@@ -61,7 +61,7 @@ class Config(BaseModel):
 
     model_type: Literal["gpt", "google", "llama"] = Field(alias="model-type")
     model: StrictStr = Field(alias="model-name")
-    temperature: NonNegativeFloat
+    temperature: NonNegativeFloat | None = None
     max_tokens: PositiveInt | None = Field(
         alias="max-tokens",
         default=None,

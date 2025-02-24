@@ -1,7 +1,8 @@
 model-type: gpt
-model-name: gpt-4o-mini-2024-07-18
+model-name: o3-mini-2025-01-31
+# model-name: gpt-4o-mini-2024-07-18
 max-tokens: 256
-temperature: 0.0
+# temperature: 0.0
 
 system-prompt-template: >-
     You will be provided with a text in {source_language},
