@@ -243,10 +243,7 @@ class LLMExpert(ABC):
             pydantic_output = self.output_parser.parse(text=response_text)
 
         except OutputParserException:
-            logger.warning(
-                f"trying to fix malformed llm response => {response_text}"
-            )
-
+            logger.warning("trying to fix malformed llm response.")
             try:
                 pydantic_output = self.retry_output_parser.parse_with_prompt(
                     response_text,
