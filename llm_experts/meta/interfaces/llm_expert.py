@@ -146,7 +146,6 @@ class LLMExpert(ABC):
             )
         )
 
-        logger.info(output_parser_conf)
         output_parser_llm = self._get_chat_llm(conf=output_parser_conf)
         self.retry_output_parser = RetryWithErrorOutputParser.from_llm(
             parser=self.output_parser,
