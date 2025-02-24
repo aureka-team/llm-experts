@@ -139,7 +139,14 @@ class LLMExpert(ABC):
 
         self.llm = self._get_chat_llm(conf=self.conf)
         self.output_parser = PydanticOutputParser(pydantic_object=expert_output)
-        output_parser_conf = Config(**load_yaml(file_path=retry_conf_path))
+        output_parser_conf = Config(
+            **(
+                load_yaml(file_path=retry_conf_path)
+                | {"max-tokens": self.conf.max_tokens}
+            )
+        )
+
+        logger.info(output_parser_conf)
         output_parser_llm = self._get_chat_llm(conf=output_parser_conf)
         self.retry_output_parser = RetryWithErrorOutputParser.from_llm(
             parser=self.output_parser,
