@@ -51,15 +51,20 @@ logger = get_logger(__name__)
 
 MODEL_TYPE_MAP = {
     "gpt": ChatOpenAI,
-    "google": ChatGoogleGenerativeAI,
-    "llama": ChatOllama,
+    "gemini": ChatGoogleGenerativeAI,
+    "ollama": ChatOllama,
 }
+
+
+class ImageURL(BaseModel):
+    url: StrictStr
+    detail: StrictStr
 
 
 class Config(BaseModel):
     model_config = ConfigDict(protected_namespaces=())
 
-    model_type: Literal["gpt", "google", "llama"] = Field(alias="model-type")
+    model_type: Literal["gpt", "gemini", "ollama"] = Field(alias="model-type")
     model: StrictStr = Field(alias="model-name")
     temperature: NonNegativeFloat | None = None
     max_tokens: PositiveInt | None = Field(
@@ -77,10 +82,7 @@ class Config(BaseModel):
         default=None,
     )
 
-    base_prompt: StrictStr | None = Field(
-        alias="base-prompt",
-        default=None,
-    )
+    image_url: ImageURL | None = None
 
 
 # TODO: Add limit by session_id to the mongodb_chat_history
@@ -111,7 +113,6 @@ class LLMExpert(ABC):
                 required_param="input_messages_key",
             )
 
-        # TODO: Is this ok?
         if self.with_message_history and self.cache is not None:
             self.cache = None
             logger.warning(
@@ -126,15 +127,25 @@ class LLMExpert(ABC):
             SystemMessagePromptTemplate.from_template(
                 self.conf.system_prompt_template,
             ),
-            HumanMessagePromptTemplate.from_template(
-                self.conf.human_prompt_template
-            ),
         ]
 
         if self.with_message_history:
-            self.prompt_messages.insert(
-                -1,
+            self.prompt_messages.append(
                 MessagesPlaceholder(variable_name="history"),
+            )
+
+        if self.conf.human_prompt_template is not None:
+            self.prompt_messages.append(
+                HumanMessagePromptTemplate.from_template(
+                    self.conf.human_prompt_template
+                ),
+            )
+
+        if self.conf.image_url is not None:
+            self.prompt_messages.append(
+                HumanMessagePromptTemplate.from_template(
+                    [{"image_url": self.conf.image_url.model_dump()}]
+                ),
             )
 
         self.llm = self._get_chat_llm(conf=self.conf)
@@ -151,7 +162,7 @@ class LLMExpert(ABC):
             parser=self.output_parser,
             llm=output_parser_llm,
             prompt=PromptTemplate.from_template(
-                template=output_parser_conf.base_prompt
+                template=output_parser_conf.human_prompt_template
             ),
         )
 
@@ -167,9 +178,9 @@ class LLMExpert(ABC):
         conf: Config,
     ) -> ChatOpenAI | ChatGoogleGenerativeAI | ChatOllama:
         dict_conf = conf.model_dump()
-        dict_conf.pop("base_prompt")
         dict_conf.pop("system_prompt_template")
         dict_conf.pop("human_prompt_template")
+        dict_conf.pop("image_url")
 
         model_type = dict_conf.pop("model_type")
         if model_type == "llama":

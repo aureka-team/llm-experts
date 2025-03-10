@@ -1,0 +1,16 @@
+model-type: gpt
+model-name: gpt-4o-mini-2024-07-18
+max-tokens: 1024
+temperature: 0.0
+
+system-prompt-template: |-
+    Analyze the provided image and generate a highly detailed description.
+
+    The output must be a JSON-formatted dictionary with the following key:
+    - "description" (string): The description of the image.
+
+    Only provide the JSON dictionary without any additional explanation or text.
+
+image_url:
+    url: "{image_url}"
+    detail: "{image_detail}"

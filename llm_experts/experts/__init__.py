@@ -15,3 +15,10 @@ from .generic_assistant import (  # noqa
     GenericAssistantInput,
     GenericAssistantOutput,
 )
+
+
+from .image_describer import (  # noqa
+    ImageDescriber,
+    ImageDescriberInput,
+    ImageDescriberOutput,
+)
